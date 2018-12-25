@@ -52,7 +52,8 @@ def playerMove():
             print('Please Enter Vaild Number')
 
 def compMove(board):
-    possiblemove = [x for x, letter in enumerate(board) if x == ' ' and x != 0]
+    possiblemove = [x for x, letter in enumerate(board) if letter == ' ' and x != 0]
+    print(possiblemove)
     move = 0 
     for let in ['O', 'X']:
         for i in possiblemove:
@@ -70,7 +71,25 @@ def compMove(board):
     if len(cornerOpen) > 0:
         move = selectRandom(cornerOpen)
         return move
- 
+
+    if 5 in possiblemove:
+        move = 5
+        return move 
+
+    edgeOpen = []
+    for i in possiblemove:
+        if i in [1, 3, 7, 9]:
+            edgeOpen.append(i)
+
+    if len(edgeOpen) > 0:
+        move = selectRandom(edgeOpen)
+        return move
+
+def selectRandom(li):
+    import random 
+    ln = len(li)
+    r = random.randrange(0, ln)
+    return li[r]
 
 def main():
     print()
@@ -83,11 +102,12 @@ def main():
             playerMove()
             printBoard(board)
         else:
-            print('Player X Won the game')
+            print('You [X] Won the game')
             break
 
         if not(isWinner(board, 'O')):
-            move = compMove()
+            move = compMove(board)
+            print(move)
             if move == 0:
                 print('Tie game')
             else:
@@ -95,7 +115,7 @@ def main():
                 print('Computer Place Position to %s'%move)
                 printBoard(board)
         else:
-            print('Player O Won the game')
+            print('Computer [O] Won the game')
             break
 
         if isBoardFull(board):
