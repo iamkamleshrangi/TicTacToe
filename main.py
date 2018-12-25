@@ -51,8 +51,26 @@ def playerMove():
         except:
             print('Please Enter Vaild Number')
 
-def compMove():
-    pass
+def compMove(board):
+    possiblemove = [x for x, letter in enumerate(board) if x == ' ' and x != 0]
+    move = 0 
+    for let in ['O', 'X']:
+        for i in possiblemove:
+            boardCopy = board[:]
+            boardCopy[i] = let
+            if isWinner(boardCopy, let):
+                move = i
+                return move
+
+    cornerOpen = []
+    for i in possiblemove:
+        if i in [1, 3, 7, 9]:
+            cornerOpen.append(i)
+
+    if len(cornerOpen) > 0:
+        move = selectRandom(cornerOpen)
+        return move
+ 
 
 def main():
     print()
